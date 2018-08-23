@@ -11,6 +11,8 @@ public class Game extends JFrame {
         this.getContentPane().add(button, BorderLayout.CENTER);
 
         this.setSize(1000,1000);
+
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
     }
 }

@@ -1,5 +1,6 @@
 import javax.swing.*;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 
 public class MenuBar extends JMenuBar {
     public MenuBar() {
@@ -21,7 +22,44 @@ public class MenuBar extends JMenuBar {
         JMenuItem newGame = new JMenuItem("New Game", KeyEvent.VK_N);
         newGame.getAccessibleContext().setAccessibleDescription(
                 "This starts a new game");
+        newGame.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menu.add(newGame);
+
+        menu.addSeparator();
+
+        ButtonGroup group = new ButtonGroup();
+
+        JCheckBoxMenuItem beginner = new JCheckBoxMenuItem("Beginner");
+        beginner.setSelected(false);
+        beginner.setMnemonic(KeyEvent.VK_B);
+        group.add(beginner);
+        menu.add(beginner);
+
+        JCheckBoxMenuItem interm = new JCheckBoxMenuItem("Intermediate");
+        interm.setSelected(true);
+        interm.setMnemonic(KeyEvent.VK_I);
+        group.add(interm);
+        menu.add(interm);
+
+        JCheckBoxMenuItem expert = new JCheckBoxMenuItem("Expert");
+        expert.setSelected(false);
+        expert.setMnemonic(KeyEvent.VK_E);
+        group.add(expert);
+        menu.add(expert);
+
+        JCheckBoxMenuItem custom = new JCheckBoxMenuItem("Custom");
+        custom.setSelected(false);
+        custom.setMnemonic(KeyEvent.VK_C);
+        group.add(custom);
+        menu.add(custom);
+
+        menu.addSeparator();
+
+        JMenuItem scores = new JMenuItem("High Scores", KeyEvent.VK_S);
+        scores.getAccessibleContext().setAccessibleDescription(
+                "This brings up the high score screen");
+        menu.add(scores);
 
         /*
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
