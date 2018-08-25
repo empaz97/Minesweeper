@@ -61,9 +61,6 @@ public class Board extends JPanel {
         this.mines.clear();
         this.isFinished = false;
 
-        //this.nMines = 15;
-        this.nMines = 5;
-
         this.remainingMines = this.nMines;
         this.squaresRemaining = (this.width * this.height) - this.nMines;
 
@@ -131,7 +128,6 @@ public class Board extends JPanel {
         if (this.squaresRemaining == 0) {
             this.winGame();
         }
-        System.out.println(this.squaresRemaining);
     }
 
     public void loseGame() {
