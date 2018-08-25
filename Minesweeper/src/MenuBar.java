@@ -2,9 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MenuBar extends JMenuBar {
-    public MenuBar() {
+public class MenuBar extends JMenuBar implements ActionListener {
+
+    private Game game;
+
+    public MenuBar(Game game) {
         super();
+        this.game = game;
         this.makeGameMenu();
         this.makeOptMenu();
         this.makeHelpMenu();
@@ -24,46 +28,60 @@ public class MenuBar extends JMenuBar {
                 "This starts a new game");
         newGame.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        newGame.addActionListener((ActionEvent event) -> {
+            this.game.getBoard().newGame();
+        });
         menu.add(newGame);
 
         menu.addSeparator();
 
         ButtonGroup group = new ButtonGroup();
 
-        JCheckBoxMenuItem beginner = new JCheckBoxMenuItem("Beginner");
+        JRadioButtonMenuItem beginner = new JRadioButtonMenuItem("Beginner");
         beginner.setSelected(false);
         beginner.setMnemonic(KeyEvent.VK_B);
         group.add(beginner);
+        beginner.addActionListener((ActionEvent event) -> {
+            this.game.getBoard().setDifficulty("Beginner");
+        });
         menu.add(beginner);
 
-        JCheckBoxMenuItem interm = new JCheckBoxMenuItem("Intermediate");
+        JRadioButtonMenuItem interm = new JRadioButtonMenuItem("Intermediate");
         interm.setSelected(true);
         interm.setMnemonic(KeyEvent.VK_I);
         group.add(interm);
+        interm.addActionListener((ActionEvent event) -> {
+            this.game.getBoard().setDifficulty("Intermediate");
+        });
         menu.add(interm);
 
-        JCheckBoxMenuItem expert = new JCheckBoxMenuItem("Expert");
+        JRadioButtonMenuItem expert = new JRadioButtonMenuItem("Expert");
         expert.setSelected(false);
         expert.setMnemonic(KeyEvent.VK_E);
         group.add(expert);
+        expert.addActionListener((ActionEvent event) -> {
+            this.game.getBoard().setDifficulty("Expert");
+        });
         menu.add(expert);
 
-        JCheckBoxMenuItem custom = new JCheckBoxMenuItem("Custom");
+        JRadioButtonMenuItem custom = new JRadioButtonMenuItem("Custom");
         custom.setSelected(false);
         custom.setMnemonic(KeyEvent.VK_C);
         group.add(custom);
+        custom.addActionListener((ActionEvent event) -> {
+            // ask for size
+            // make new board
+            this.game.getBoard().setCustom(7, 7, 3);
+        });
         menu.add(custom);
 
+        /*
         menu.addSeparator();
 
         JMenuItem scores = new JMenuItem("High Scores", KeyEvent.VK_S);
         scores.getAccessibleContext().setAccessibleDescription(
                 "This brings up the high score screen");
         menu.add(scores);
-
-        /*
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_1, ActionEvent.ALT_MASK));
         */
     }
 
@@ -76,16 +94,20 @@ public class MenuBar extends JMenuBar {
         );
         this.add(menu);
 
+        JCheckBoxMenuItem marks = new JCheckBoxMenuItem("Marks (?)");
+        marks.setSelected(true);
+        marks.setMnemonic(KeyEvent.VK_M);
+        menu.add(marks);
 
-        /*
-        menuItem = new JMenuItem("A text-only menu item",
-                KeyEvent.VK_T);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_1, ActionEvent.ALT_MASK));
-        menuItem.getAccessibleContext().setAccessibleDescription(
-                "This doesn't really do anything");
-        menu.add(menuItem);
-        */
+        JCheckBoxMenuItem color = new JCheckBoxMenuItem("Color");
+        color.setSelected(true);
+        color.setMnemonic(KeyEvent.VK_C);
+        menu.add(color);
+
+        JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound");
+        marks.setSelected(false);
+        sound.setMnemonic(KeyEvent.VK_S);
+        menu.add(sound);
 
     }
 
@@ -98,16 +120,31 @@ public class MenuBar extends JMenuBar {
         );
         this.add(menu);
 
+        JMenuItem instr = new JMenuItem("Instructions", KeyEvent.VK_I);
+        instr.getAccessibleContext().setAccessibleDescription(
+                "This brings up the information screen");
+        instr.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
-        /*
-        menuItem = new JMenuItem("A text-only menu item",
-                KeyEvent.VK_T);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_1, ActionEvent.ALT_MASK));
-        menuItem.getAccessibleContext().setAccessibleDescription(
-                "This doesn't really do anything");
-        menu.add(menuItem);
-        */
+        instr.addActionListener((ActionEvent event) -> {
+            JOptionPane.showMessageDialog(this, "Here's how to play:",
+                    "Instructions", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        menu.add(instr);
+
+
+        JMenuItem about = new JMenuItem("About", KeyEvent.VK_A);
+        about.getAccessibleContext().setAccessibleDescription(
+                "This brings up the about screen");
+        about.addActionListener((ActionEvent event) -> {
+            JOptionPane.showMessageDialog(this, "About:",
+                    "About", JOptionPane.INFORMATION_MESSAGE);
+        });
+        menu.add(about);
+    }
+
+    public void actionPerformed(ActionEvent e) {
 
     }
 }
