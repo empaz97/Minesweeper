@@ -42,7 +42,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         beginner.setMnemonic(KeyEvent.VK_B);
         group.add(beginner);
         beginner.addActionListener((ActionEvent event) -> {
-            this.game.getBoard().setDifficulty("Beginner");
+            this.game.newGame("Beginner");
         });
         menu.add(beginner);
 
@@ -51,7 +51,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         interm.setMnemonic(KeyEvent.VK_I);
         group.add(interm);
         interm.addActionListener((ActionEvent event) -> {
-            this.game.getBoard().setDifficulty("Intermediate");
+            this.game.newGame("Intermediate");
         });
         menu.add(interm);
 
@@ -60,7 +60,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         expert.setMnemonic(KeyEvent.VK_E);
         group.add(expert);
         expert.addActionListener((ActionEvent event) -> {
-            this.game.getBoard().setDifficulty("Expert");
+            this.game.newGame("Expert");
         });
         menu.add(expert);
 
@@ -71,7 +71,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         custom.addActionListener((ActionEvent event) -> {
             // ask for size
             // make new board
-            this.game.getBoard().setCustom(7, 7, 3);
+            this.game.newGame(7,7,3);
         });
         menu.add(custom);
 
