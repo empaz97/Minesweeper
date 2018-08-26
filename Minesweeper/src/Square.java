@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Square extends JButton {
 
     private Board board;
-    private boolean hasMine, isPressed, isMarked;
+    private boolean hasMine, isPressed, isFlagged, isMarked;
     private int adjMines, x, y;
     private String img;
 
@@ -15,7 +13,12 @@ public class Square extends JButton {
         super();
         this.board = b;
         this.adjMines = 0;
+
         this.hasMine = false;
+        this.isMarked = false;
+        this.isFlagged = false;
+        this.isPressed = false;
+
         this.x = x;
         this.y = y;
 
@@ -30,14 +33,7 @@ public class Square extends JButton {
             this.board.repaint();
         });
 
-        Square button = this;
-        this.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e)) {
-                    button.mark();
-                }
-            }
-        });
+        this.addMouseListener(new SquareMouseListener(this));
     }
 
     public void addAdjMine() {
@@ -89,7 +85,7 @@ public class Square extends JButton {
     }
 
     public void press() {
-        if (!this.isPressed && !this.isMarked && !this.board.isFinished()) {
+        if (!this.isPressed && !this.isMarked && !this.isFlagged && !this.board.isFinished()) {
             this.pushIn();
 
             if (this.hasMine) {
@@ -114,19 +110,26 @@ public class Square extends JButton {
 
     public void mark() {
         if (!this.isPressed && !this.board.isFinished()) {
-            if (this.isMarked) {
+            if (this.isFlagged) {
+                this.img = "images/mark.png";
+                this.isFlagged = false;
+                this.isMarked = true;
+            } else if (this.isMarked) {
                 this.img = "";
-                this.setIcon(null);
+                this.isMarked = false;
             } else {
                 this.img = "images/flag.png";
-                this.setIcon(new ImageIcon(this.img));
+                this.isFlagged = true;
             }
-
-            this.isMarked = !this.isMarked;
+            this.setIcon(new ImageIcon(this.img));
         }
     }
 
     public boolean getHasMine() {
         return this.hasMine;
+    }
+
+    public Board getBoard() {
+        return this.board;
     }
 }

@@ -152,4 +152,8 @@ public class Board extends JPanel {
     public boolean isFinished() {
         return this.isFinished;
     }
+
+    public Game getGame() {
+        return this.game;
+    }
 }
