@@ -1,1 +1,29 @@
-some stuff 
+Minesweeper
+
+Emily Pazienza
+CS 338: Graphical User Interfaces
+
+This game is the traditional Minesweeper game. It does not require any additional modules. The main function is located in the file Minesweeper.java
+
+An executable .jar file can be found at:
+./Minesweeper/out/artifacts/Minesweeper/Minesweeper.jar
+
+The image resources were all created by me and are located in the images/ folder within the file directory.
+
+Under the Game menu, you can choose to start a new game, or set the difficulty which starts a new game with that difficulty. The difficulties are as follows:
+Beginner: 8x8, 10 mines 
+Intermediate: 16x16, 40 mines
+Expert: 24x24, 99 mines
+Custom: 7x7, 3 mines (will be able to be set by user in future)
+
+You can also start a new game by pressing the smiley face at the top!
+
+The goal of this game is to correctly open all squares not containing a mine. If you open a mine, you die! You click a square to open it, and upon being opened, if there is no mine in the square, it will display a number saying the number of adjacent (all eight squares touching a side or corner) mines. If there are 0 adjacent mines, it will chain open all adjacent squares. You can right click a sqsquare to flag it as possibly having a mine under it. Another right click gives it a question mark which says you're unsure, and another right click toggles it back to un-marked.
+
+It is currently in the alpha version so there are a few things which are not implemented yet. Those features are as follows:
+- A game timer
+- A countdown display of remaining mines to mark
+- High score tracking
+- Better how to play instructions
+- User-entered custom board sizes
+- Option toggles

@@ -126,8 +126,17 @@ public class MenuBar extends JMenuBar implements ActionListener {
         instr.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
+        String message = "Here's how to play:\n";
+        message += "Click squares to open them. If it's a mine, you lose!\n";
+        message += "If you open all non-mine squares, you win!\n\n";
+        message += "Non-mine squares will display a number indicating the number of adjacent mines," +
+                "or nothing if there are no adjacent mines.\n";
+        message += "Right click to flag a square as possibly having a mine. Right click again to mark" +
+                " it as questionable. One more right click clears the mark and flag.";
+
+        final String instrMess = message;
         instr.addActionListener((ActionEvent event) -> {
-            JOptionPane.showMessageDialog(this, "Here's how to play:",
+            JOptionPane.showMessageDialog(this, instrMess,
                     "Instructions", JOptionPane.INFORMATION_MESSAGE);
         });
 
@@ -137,8 +146,13 @@ public class MenuBar extends JMenuBar implements ActionListener {
         JMenuItem about = new JMenuItem("About", KeyEvent.VK_A);
         about.getAccessibleContext().setAccessibleDescription(
                 "This brings up the about screen");
+
+        message = "About:\n";
+        message += "Created by Emily Pazienza\n";
+        message += "2018";
+        final String abtMess = message;
         about.addActionListener((ActionEvent event) -> {
-            JOptionPane.showMessageDialog(this, "About:",
+            JOptionPane.showMessageDialog(this, abtMess,
                     "About", JOptionPane.INFORMATION_MESSAGE);
         });
         menu.add(about);
