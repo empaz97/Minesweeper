@@ -15,12 +15,18 @@ public class SquareMouseListener extends MouseAdapter {
     }
 
     public void mousePressed(MouseEvent e) {
-        if (!this.square.getBoard().isFinished() && !SwingUtilities.isRightMouseButton(e))
+        if (!this.square.getBoard().isFinished()
+                && !SwingUtilities.isRightMouseButton(e)
+                && !this.square.getIsMarked()
+                && !this.square.getIsFlagged())
             this.square.getBoard().getGame().setSmile("scared");
     }
 
     public void mouseReleased(MouseEvent e) {
-        if (!this.square.getBoard().isFinished() && !SwingUtilities.isRightMouseButton(e))
+        if (!this.square.getBoard().isFinished()
+                && !SwingUtilities.isRightMouseButton(e)
+                && !this.square.getIsMarked()
+                && !this.square.getIsFlagged())
             this.square.getBoard().getGame().setSmile("default");
     }
 }
