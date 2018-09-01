@@ -11,6 +11,7 @@ public class Board extends JPanel {
     private ArrayList<Square> mines;
     private Game game;
     private boolean isFinished;
+    private boolean marks;
 
     public Board(Game game) {
         super();
@@ -18,7 +19,8 @@ public class Board extends JPanel {
         this.game = game;
         this.squares = new ArrayList<ArrayList<Square>>();
         this.mines = new ArrayList<Square>();
-        this.setOptions(16, 16, 40);
+        this.marks = true;
+        this.setDifficulty("Intermediate");
 
         //this.setBounds(40,80,200,200);
 
@@ -52,6 +54,23 @@ public class Board extends JPanel {
     public void setCustom (int w, int h, int n) {
         this.setOptions(w,h,n);
         this.newGame();
+    }
+
+    public void toggleMarks() {
+        if (this.marks) {
+            for (int i = 0; i < this.height; i++) {
+                for (int j = 0; j < this.width; j++) {
+                    if (this.squares.get(i).get(j).getIsMarked()) {
+                        this.squares.get(i).get(j).removeMark();
+                    }
+                }
+            }
+        }
+        this.marks = !this.marks;
+    }
+
+    public boolean getHasMarks() {
+        return this.marks;
     }
 
     public void newGame() {
@@ -91,12 +110,12 @@ public class Board extends JPanel {
             } else {
                 s.setMine();
                 this.mines.add(s);
-                this.chain("add adj", w, h);
+                this.chainCorners("add adj", w, h);
             }
         }
     }
 
-    public void chain(String action, int x, int y) {
+    public void chainCorners(String action, int x, int y) {
         int north, south, east, west;
         north = y - 1;
         south = y + 1;
@@ -114,6 +133,19 @@ public class Board extends JPanel {
         this.performAction(action, south, east);
     }
 
+    public void chainSides(String action, int x, int y) {
+        int north, south, east, west;
+        north = y - 1;
+        south = y + 1;
+        east = x + 1;
+        west = x - 1;
+
+        this.performAction(action, north, x);
+        this.performAction(action, south, x);
+        this.performAction(action, y, east);
+        this.performAction(action, y, west);
+    }
+
     private void performAction(String action, int y, int x) {
         if (y >= 0 && x >= 0 && y < this.height && x < this.width) {
             if (action.equals("open"))
@@ -122,7 +154,6 @@ public class Board extends JPanel {
                 this.squares.get(y).get(x).addAdjMine();
         }
     }
-
     public void countPress() {
         this.squaresRemaining--;
         if (this.squaresRemaining == 0) {

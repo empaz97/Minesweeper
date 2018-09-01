@@ -97,6 +97,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
         JCheckBoxMenuItem marks = new JCheckBoxMenuItem("Marks (?)");
         marks.setSelected(true);
         marks.setMnemonic(KeyEvent.VK_M);
+        marks.addActionListener((ActionEvent event) -> {
+            this.game.getBoard().toggleMarks();
+        });
         menu.add(marks);
 
         JCheckBoxMenuItem color = new JCheckBoxMenuItem("Color");
@@ -105,7 +108,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         menu.add(color);
 
         JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound");
-        marks.setSelected(false);
+        sound.setSelected(false);
         sound.setMnemonic(KeyEvent.VK_S);
         menu.add(sound);
 

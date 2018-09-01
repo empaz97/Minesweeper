@@ -91,10 +91,12 @@ public class Square extends JButton {
             if (this.hasMine) {
                 this.board.loseGame();
                 this.setBackground(Color.red);
+            } else {
+                this.board.countPress();
             }
 
             if (this.adjMines == 0 && !this.hasMine) {
-                this.board.chain("open", this.x, this.y);
+                this.board.chainSides("open", this.x, this.y);
             }
         }
     }
@@ -104,11 +106,24 @@ public class Square extends JButton {
             this.isPressed = true;
             this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.darkGray));
             this.setImage();
-            this.board.countPress();
         }
     }
 
+    public void removeMark() {
+        this.isMarked = false;
+        this.img = "";
+        this.setIcon(new ImageIcon(this.img));
+    }
+
     public void mark() {
+        if (this.getBoard().getHasMarks() == true) {
+            this.markWithQs();
+        } else {
+            this.markJustFlags();
+        }
+    }
+
+    private void markWithQs() {
         if (!this.isPressed && !this.board.isFinished()) {
             if (this.isFlagged) {
                 this.img = "images/mark.png";
@@ -123,6 +138,27 @@ public class Square extends JButton {
             }
             this.setIcon(new ImageIcon(this.img));
         }
+    }
+
+    private void markJustFlags() {
+        if (!this.isPressed && !this.board.isFinished()) {
+            if (this.isFlagged) {
+                this.img = "";
+                this.isFlagged = false;
+            } else {
+                this.img = "images/flag.png";
+                this.isFlagged = true;
+            }
+            this.setIcon(new ImageIcon(this.img));
+        }
+    }
+
+    public boolean getIsMarked() {
+        return this.isMarked;
+    }
+
+    public boolean getIsFlagged() {
+        return this.isFlagged;
     }
 
     public boolean getHasMine() {

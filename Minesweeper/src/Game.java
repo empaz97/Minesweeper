@@ -54,6 +54,10 @@ public class Game extends JFrame {
         });
     }
 
+    public void toggleMarks() {
+
+    }
+
     public Board getBoard() {
         return this.board;
     }
