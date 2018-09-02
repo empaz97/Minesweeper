@@ -7,7 +7,7 @@ public class Square extends JButton {
     private Board board;
     private boolean hasMine, isPressed, isFlagged, isMarked;
     private int adjMines, x, y;
-    private String img;
+    private String img, suffix;
 
     public Square(Board b, int x, int y) {
         super();
@@ -18,6 +18,12 @@ public class Square extends JButton {
         this.isMarked = false;
         this.isFlagged = false;
         this.isPressed = false;
+
+        if(this.board.getIsColored()) {
+            this.suffix = "";
+        } else {
+            this.suffix = "_bw";
+        }
 
         this.x = x;
         this.y = y;
@@ -74,7 +80,7 @@ public class Square extends JButton {
             default:
                 break;
         }
-        path += ".png";
+        path += this.suffix + ".png";
 
         if (this.hasMine) {
             path = "images/mine.png";
@@ -133,7 +139,7 @@ public class Square extends JButton {
                 this.img = "";
                 this.isMarked = false;
             } else {
-                this.img = "images/flag.png";
+                this.img = "images/flag" + this.suffix + ".png";
                 this.isFlagged = true;
             }
             this.setIcon(new ImageIcon(this.img));
@@ -146,10 +152,17 @@ public class Square extends JButton {
                 this.img = "";
                 this.isFlagged = false;
             } else {
-                this.img = "images/flag.png";
+                this.img = "images/flag" + this.suffix + ".png";
                 this.isFlagged = true;
             }
             this.setIcon(new ImageIcon(this.img));
+        }
+    }
+
+    public void setSuffix(String suff) {
+        this.suffix = suff;
+        if (this.isPressed) {
+            this.setImage();
         }
     }
 

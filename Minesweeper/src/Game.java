@@ -6,6 +6,8 @@ public class Game extends JFrame {
 
     private Board board;
     private JButton smile;
+    private String smileImg;
+    private String imgSuff;
 
     public Game(String title) {
         super(title);
@@ -18,6 +20,7 @@ public class Game extends JFrame {
 
         this.board = new Board(this);
         this.getContentPane().add(this.board, BorderLayout.CENTER);
+        this.imgSuff = "";
 
 
         //this.setSize(1000,1000);
@@ -54,8 +57,14 @@ public class Game extends JFrame {
         });
     }
 
-    public void toggleMarks() {
-
+    public void toggleColor() {
+        this.board.toggleColor();
+        if (this.board.getIsColored()) {
+            this.imgSuff = "";
+        } else {
+            this.imgSuff = "_bw";
+        }
+        this.setSmile(this.smileImg);
     }
 
     public Board getBoard() {
@@ -63,7 +72,8 @@ public class Game extends JFrame {
     }
 
     public void setSmile(String name) {
-        String path = "images/" + name + "_smiley.png";
+        String path = "images/" + name + "_smiley" + this.imgSuff + ".png";
+        this.smileImg = name;
         this.smile.setIcon(new ImageIcon(path));
     }
 }

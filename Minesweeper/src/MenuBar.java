@@ -105,6 +105,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
         JCheckBoxMenuItem color = new JCheckBoxMenuItem("Color");
         color.setSelected(true);
         color.setMnemonic(KeyEvent.VK_C);
+        color.addActionListener((ActionEvent event) -> {
+            this.game.toggleColor();
+        });
         menu.add(color);
 
         JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound");

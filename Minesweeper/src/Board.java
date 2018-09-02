@@ -11,7 +11,7 @@ public class Board extends JPanel {
     private ArrayList<Square> mines;
     private Game game;
     private boolean isFinished;
-    private boolean marks;
+    private boolean marks, color;
 
     public Board(Game game) {
         super();
@@ -20,6 +20,7 @@ public class Board extends JPanel {
         this.squares = new ArrayList<ArrayList<Square>>();
         this.mines = new ArrayList<Square>();
         this.marks = true;
+        this.color = true;
         this.setDifficulty("Intermediate");
 
         //this.setBounds(40,80,200,200);
@@ -56,8 +57,21 @@ public class Board extends JPanel {
         this.newGame();
     }
 
+    public void toggleColor() {
+        this.color = !this.color;
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                if (this.color)
+                    this.squares.get(i).get(j).setSuffix("");
+                else
+                    this.squares.get(i).get(j).setSuffix("_bw");
+            }
+        }
+    }
+
     public void toggleMarks() {
-        if (this.marks) {
+        this.marks = !this.marks;
+        if (!this.marks) {
             for (int i = 0; i < this.height; i++) {
                 for (int j = 0; j < this.width; j++) {
                     if (this.squares.get(i).get(j).getIsMarked()) {
@@ -66,11 +80,14 @@ public class Board extends JPanel {
                 }
             }
         }
-        this.marks = !this.marks;
     }
 
     public boolean getHasMarks() {
         return this.marks;
+    }
+
+    public boolean getIsColored() {
+        return this.color;
     }
 
     public void newGame() {
