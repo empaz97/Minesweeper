@@ -10,7 +10,7 @@ public class Board extends JPanel {
     private ArrayList<ArrayList<Square>> squares;
     private ArrayList<Square> mines;
     private Game game;
-    private boolean isFinished;
+    private boolean isFinished, isStarted;
     private boolean marks, color;
 
     public Board(Game game) {
@@ -22,8 +22,7 @@ public class Board extends JPanel {
         this.marks = true;
         this.color = true;
         this.setDifficulty("Intermediate");
-
-        //this.setBounds(40,80,200,200);
+        this.game.getMineCount().setVal(nMines);
 
         this.newGame();
     }
@@ -91,13 +90,16 @@ public class Board extends JPanel {
     }
 
     public void newGame() {
+        this.game.getTimeCount().setVal(0);
         this.setLayout(new GridLayout(this.height, this.width));
         this.removeAll();
         this.squares.clear();
         this.mines.clear();
         this.isFinished = false;
+        this.isStarted = false;
 
         this.remainingMines = this.nMines;
+        this.game.getMineCount().setVal(this.remainingMines);
         this.squaresRemaining = (this.width * this.height) - this.nMines;
 
         for (int h = 0; h < this.height; h++) {
@@ -127,12 +129,12 @@ public class Board extends JPanel {
             } else {
                 s.setMine();
                 this.mines.add(s);
-                this.chainCorners("add adj", w, h);
+                this.chain("add adj", w, h);
             }
         }
     }
 
-    public void chainCorners(String action, int x, int y) {
+    public void chain(String action, int x, int y) {
         int north, south, east, west;
         north = y - 1;
         south = y + 1;
@@ -148,19 +150,6 @@ public class Board extends JPanel {
         this.performAction(action, north, east);
         this.performAction(action, south, west);
         this.performAction(action, south, east);
-    }
-
-    public void chainSides(String action, int x, int y) {
-        int north, south, east, west;
-        north = y - 1;
-        south = y + 1;
-        east = x + 1;
-        west = x - 1;
-
-        this.performAction(action, north, x);
-        this.performAction(action, south, x);
-        this.performAction(action, y, east);
-        this.performAction(action, y, west);
     }
 
     private void performAction(String action, int y, int x) {
@@ -179,6 +168,7 @@ public class Board extends JPanel {
     }
 
     public void loseGame() {
+        this.game.getTimer().stop();
         for (int i = 0; i < this.mines.size(); i++) {
             this.mines.get(i).pushIn();
         }
@@ -191,6 +181,7 @@ public class Board extends JPanel {
     }
 
     public void winGame() {
+        this.game.getTimer().stop();
         this.game.setSmile("win");
         JOptionPane.showMessageDialog(this, "You win!",
                 "Nice Job!", JOptionPane.INFORMATION_MESSAGE);
@@ -199,6 +190,12 @@ public class Board extends JPanel {
 
     public boolean isFinished() {
         return this.isFinished;
+    }
+    public boolean isStarted() { return this.isStarted; }
+
+    public void start() {
+        this.isStarted = true;
+        this.game.getTimer().start();
     }
 
     public Game getGame() {

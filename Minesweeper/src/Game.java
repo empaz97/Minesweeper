@@ -1,6 +1,8 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Game extends JFrame {
 
@@ -8,22 +10,49 @@ public class Game extends JFrame {
     private JButton smile;
     private String smileImg;
     private String imgSuff;
+    private NumberSet mineCount, timeCount;
+    private Timer timer;
 
     public Game(String title) {
         super(title);
+        this.getContentPane().setBackground(Color.lightGray);
 
         JMenuBar menuBar = new MenuBar(this);
         this.setJMenuBar(menuBar);
 
-        this.makeButton();
-        this.getContentPane().add(this.smile, BorderLayout.NORTH);
+        JPanel gamePanel = new JPanel(new BorderLayout(0,10));
+
+        JPanel headerWrapper = new JPanel();
+        headerWrapper.setBackground(Color.lightGray);
+        JPanel headerPanel = new JPanel(new BorderLayout(135,0));
+        headerPanel.setBackground(Color.lightGray);
+
+        this.mineCount = new NumberSet();
+        headerPanel.add(this.mineCount, BorderLayout.WEST);
+
+        this.imgSuff = "";
+        this.makeSmile();
+        this.smile.setPreferredSize(new Dimension(25, 27));
+        headerPanel.add(this.smile, BorderLayout.CENTER);
+
+        this.timeCount = new NumberSet();
+        headerPanel.add(this.timeCount, BorderLayout.EAST);
+
+        this.createTimer();
+
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(1,0,1,0));
+        headerWrapper.setBorder(BorderFactory.createLoweredBevelBorder());
+        headerWrapper.add(headerPanel);
+        gamePanel.add(headerWrapper, BorderLayout.NORTH);
 
         this.board = new Board(this);
-        this.getContentPane().add(this.board, BorderLayout.CENTER);
-        this.imgSuff = "";
+        this.board.setBackground(Color.lightGray);
+        this.board.setBorder(BorderFactory.createLoweredBevelBorder());
+        gamePanel.add(this.board, BorderLayout.CENTER);
 
-
-        //this.setSize(1000,1000);
+        gamePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        gamePanel.setBackground(Color.lightGray);
+        this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
@@ -43,7 +72,14 @@ public class Game extends JFrame {
         this.board.newGame();
     }
 
-    private void makeButton() {
+    private void createTimer() {
+        this.timer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                timeCount.increment();
+            }});
+    }
+
+    private void makeSmile() {
         JButton sm = new JButton();
         sm.setPreferredSize(new Dimension(30,30));
         sm.setBackground(Color.lightGray);
@@ -71,9 +107,21 @@ public class Game extends JFrame {
         return this.board;
     }
 
+    public NumberSet getMineCount() {
+        return this.mineCount;
+    }
+
+    public NumberSet getTimeCount() {
+        return this.timeCount;
+    }
+
     public void setSmile(String name) {
         String path = "images/" + name + "_smiley" + this.imgSuff + ".png";
         this.smileImg = name;
         this.smile.setIcon(new ImageIcon(path));
+    }
+
+    public Timer getTimer() {
+        return this.timer;
     }
 }

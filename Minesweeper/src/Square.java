@@ -91,6 +91,9 @@ public class Square extends JButton {
     }
 
     public void press() {
+        if (!this.board.isStarted()) {
+            this.board.start();
+        }
         if (!this.isPressed && !this.isMarked && !this.isFlagged && !this.board.isFinished()) {
             this.pushIn();
 
@@ -102,7 +105,7 @@ public class Square extends JButton {
             }
 
             if (this.adjMines == 0 && !this.hasMine) {
-                this.board.chainSides("open", this.x, this.y);
+                this.board.chain("open", this.x, this.y);
             }
         }
     }
@@ -134,6 +137,7 @@ public class Square extends JButton {
             if (this.isFlagged) {
                 this.img = "images/mark.png";
                 this.isFlagged = false;
+                this.board.getGame().getMineCount().increment();
                 this.isMarked = true;
             } else if (this.isMarked) {
                 this.img = "";
@@ -141,6 +145,7 @@ public class Square extends JButton {
             } else {
                 this.img = "images/flag" + this.suffix + ".png";
                 this.isFlagged = true;
+                this.board.getGame().getMineCount().decrement();
             }
             this.setIcon(new ImageIcon(this.img));
         }
@@ -151,9 +156,11 @@ public class Square extends JButton {
             if (this.isFlagged) {
                 this.img = "";
                 this.isFlagged = false;
+                this.board.getGame().getMineCount().increment();
             } else {
                 this.img = "images/flag" + this.suffix + ".png";
                 this.isFlagged = true;
+                this.board.getGame().getMineCount().decrement();
             }
             this.setIcon(new ImageIcon(this.img));
         }

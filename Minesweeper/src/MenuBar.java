@@ -75,14 +75,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
         });
         menu.add(custom);
 
-        /*
         menu.addSeparator();
 
         JMenuItem scores = new JMenuItem("High Scores", KeyEvent.VK_S);
         scores.getAccessibleContext().setAccessibleDescription(
                 "This brings up the high score screen");
         menu.add(scores);
-        */
     }
 
     private void makeOptMenu() {
