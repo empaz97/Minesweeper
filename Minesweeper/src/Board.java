@@ -12,6 +12,7 @@ public class Board extends JPanel {
     private Game game;
     private boolean isFinished, isStarted;
     private boolean marks, color;
+    private String difficulty;
 
     public Board(Game game) {
         super();
@@ -27,8 +28,9 @@ public class Board extends JPanel {
         this.newGame();
     }
 
-    public void setDifficulty (String difficulty) {
-        switch (difficulty) {
+    public void setDifficulty (String diff) {
+        this.difficulty = diff;
+        switch (diff) {
             case "Beginner":
                 this.setOptions(8, 8, 10);
                 break;
@@ -52,6 +54,7 @@ public class Board extends JPanel {
     }
 
     public void setCustom (int w, int h, int n) {
+        this.difficulty = "custom";
         this.setOptions(w,h,n);
         this.newGame();
     }
@@ -186,6 +189,38 @@ public class Board extends JPanel {
         JOptionPane.showMessageDialog(this, "You win!",
                 "Nice Job!", JOptionPane.INFORMATION_MESSAGE);
         this.isFinished = true;
+
+        this.checkHighScore();
+    }
+
+    private void checkHighScore() {
+        if (this.difficulty.equals("custom"))
+            return;
+
+        HighScore existing = this.game.getHighScores().get(this.difficulty);
+        int currentTime = this.game.getTimeCount().getTotal();
+        if (existing == null || currentTime < existing.getTime()) {
+            JPanel panel = new JPanel(new BorderLayout());
+
+            String message = "Congrats! You've set the new high score of " + currentTime + " seconds!";
+            panel.add(new JLabel(message), BorderLayout.NORTH);
+
+            message = "Please enter your name to save your high score";
+            panel.add(new JLabel(message), BorderLayout.CENTER);
+
+            JTextField name = new JTextField();
+            name.setColumns(10);
+            panel.add(name, BorderLayout.SOUTH);
+            String winnerName;
+
+            int option = JOptionPane.showConfirmDialog(
+                    null, panel, "New High Score!",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (option == JOptionPane.OK_OPTION) {
+                winnerName = name.getText();
+                this.game.getHighScores().logBeginner(currentTime, winnerName);
+            }
+        }
     }
 
     public boolean isFinished() {

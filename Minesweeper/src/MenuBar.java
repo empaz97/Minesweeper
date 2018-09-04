@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,6 +7,7 @@ import java.text.ParseException;
 
 public class MenuBar extends JMenuBar implements ActionListener {
 
+    // the game that the menubar belongs to
     private Game game;
 
     public MenuBar(Game game) {
@@ -18,6 +18,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         this.makeHelpMenu();
     }
 
+    // creates the game menu and adds it to the menu bar
     private void makeGameMenu() {
         JMenu menu = new JMenu("Game");
         menu.setMnemonic(KeyEvent.VK_G);
@@ -27,6 +28,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         );
         this.add(menu);
 
+        // starts a new game with the current settings
         JMenuItem newGame = new JMenuItem("New Game", KeyEvent.VK_N);
         newGame.getAccessibleContext().setAccessibleDescription(
                 "This starts a new game");
@@ -39,8 +41,11 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         menu.addSeparator();
 
+        // group of the difficulty options
         ButtonGroup group = new ButtonGroup();
 
+        // beginner games are 8x8 with 10 mines
+        // sets these settings and starts a new game
         JRadioButtonMenuItem beginner = new JRadioButtonMenuItem("Beginner");
         beginner.setSelected(false);
         beginner.setMnemonic(KeyEvent.VK_B);
@@ -50,6 +55,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
         });
         menu.add(beginner);
 
+        // intermediate games are 16x16 with 40 mines
+        // sets these settings and starts a new game
         JRadioButtonMenuItem interm = new JRadioButtonMenuItem("Intermediate");
         interm.setSelected(true);
         interm.setMnemonic(KeyEvent.VK_I);
@@ -59,6 +66,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
         });
         menu.add(interm);
 
+        // expert games are 24x24 with 99 mines
+        // sets these settings and starts a new game
         JRadioButtonMenuItem expert = new JRadioButtonMenuItem("Expert");
         expert.setSelected(false);
         expert.setMnemonic(KeyEvent.VK_E);
@@ -68,6 +77,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         });
         menu.add(expert);
 
+        // lets user customize game settings and starts a new game
         JRadioButtonMenuItem custom = new JRadioButtonMenuItem("Custom");
         custom.setSelected(false);
         custom.setMnemonic(KeyEvent.VK_C);
@@ -79,12 +89,23 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         menu.addSeparator();
 
+        // shows the high scores across all sessions of the game
         JMenuItem scores = new JMenuItem("High Scores", KeyEvent.VK_S);
         scores.getAccessibleContext().setAccessibleDescription(
                 "This brings up the high score screen");
+        scores.addActionListener((ActionEvent event) -> {
+            Object[] options = { "Reset Scores", "Close"};
+            int n = JOptionPane.showOptionDialog(this, game.getHighScores(),
+                    "Fastest Mine Sweepers", JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+            if (n == 0) {
+                game.getHighScores().resetScores();
+            }
+        });
         menu.add(scores);
     }
 
+    // creates the option menu and adds it to the menu bar
     private void makeOptMenu() {
         JMenu menu = new JMenu("Options");
         menu.setMnemonic(KeyEvent.VK_O);
@@ -110,13 +131,14 @@ public class MenuBar extends JMenuBar implements ActionListener {
         });
         menu.add(color);
 
-        JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound");
-        sound.setSelected(false);
-        sound.setMnemonic(KeyEvent.VK_S);
-        menu.add(sound);
+//        JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound");
+//        sound.setSelected(false);
+//        sound.setMnemonic(KeyEvent.VK_S);
+//        menu.add(sound);
 
     }
 
+    // creates the help menu and adds it to the menu bar
     private void makeHelpMenu() {
         JMenu menu = new JMenu("Help");
         menu.setMnemonic(KeyEvent.VK_H);
@@ -126,6 +148,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         );
         this.add(menu);
 
+        // some instructions on how to play!
         JMenuItem instr = new JMenuItem("Instructions", KeyEvent.VK_I);
         instr.getAccessibleContext().setAccessibleDescription(
                 "This brings up the information screen");
@@ -149,6 +172,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         menu.add(instr);
 
 
+        // some info about the creator
         JMenuItem about = new JMenuItem("About", KeyEvent.VK_A);
         about.getAccessibleContext().setAccessibleDescription(
                 "This brings up the about screen");
@@ -164,6 +188,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         menu.add(about);
     }
 
+    // shows the dialog for the user to enter custom options for the board
     private void showCustomDialog() {
         JPanel panel = new JPanel(new GridLayout(0, 2));
 

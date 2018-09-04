@@ -12,6 +12,7 @@ public class Game extends JFrame {
     private String imgSuff;
     private NumberSet mineCount, timeCount;
     private Timer timer;
+    private HighScoreList highScores;
 
     public Game(String title) {
         super(title);
@@ -54,6 +55,7 @@ public class Game extends JFrame {
         gamePanel.setBackground(Color.lightGray);
         this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 
+        this.highScores = new HighScoreList();
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
     }
@@ -123,5 +125,9 @@ public class Game extends JFrame {
 
     public Timer getTimer() {
         return this.timer;
+    }
+
+    public HighScoreList getHighScores() {
+        return this.highScores;
     }
 }

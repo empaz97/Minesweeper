@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class NumberSet extends JPanel {
 
@@ -98,12 +97,10 @@ public class NumberSet extends JPanel {
             this.repaintTen();
         }
         this.repaintOne();
-        //System.out.print("Incremented to: " + this.valOne);
     }
 
     public void decrement() {
         this.valOne--;
-        System.out.println(this.valOne);
         if (this.valOne == -1) {
             int temp = this.valOne;
             this.valOne = 9;
@@ -121,7 +118,6 @@ public class NumberSet extends JPanel {
             this.repaintTen();
         }
         this.repaintOne();
-        //System.out.print("Decremented to: " + this.valOne);
     }
 
     public void setVal(int n) {
@@ -142,5 +138,12 @@ public class NumberSet extends JPanel {
         this.repaintTen();
         this.valOne = o;
         this.repaintOne();
+    }
+
+    public int getTotal() {
+        int n = 100 * this.valHun;
+        n += 10 * this.valTen;
+        n += this.valOne;
+        return n;
     }
 }
