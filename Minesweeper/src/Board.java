@@ -179,15 +179,15 @@ public class Board extends JPanel {
         this.game.setSmile("loss");
 
         JOptionPane.showMessageDialog(this, "You lose! You stepped on a mine!",
-                "Bummer!", JOptionPane.ERROR_MESSAGE);
+                "Bummer!", JOptionPane.ERROR_MESSAGE, new ImageIcon("images/loss_smiley.png"));
         this.isFinished = true;
     }
 
     public void winGame() {
         this.game.getTimer().stop();
         this.game.setSmile("win");
-        JOptionPane.showMessageDialog(this, "You win!",
-                "Nice Job!", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "You win!", "Nice Job!",
+                JOptionPane.INFORMATION_MESSAGE, new ImageIcon("images/win_smiley.png"));
         this.isFinished = true;
 
         this.checkHighScore();
