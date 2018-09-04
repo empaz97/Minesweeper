@@ -1,6 +1,10 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 public class MenuBar extends JMenuBar implements ActionListener {
 
@@ -69,9 +73,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         custom.setMnemonic(KeyEvent.VK_C);
         group.add(custom);
         custom.addActionListener((ActionEvent event) -> {
-            // ask for size
-            // make new board
-            this.game.newGame(7,7,3);
+            this.showCustomDialog();
         });
         menu.add(custom);
 
@@ -160,6 +162,57 @@ public class MenuBar extends JMenuBar implements ActionListener {
                     "About", JOptionPane.INFORMATION_MESSAGE);
         });
         menu.add(about);
+    }
+
+    private void showCustomDialog() {
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+
+        NumberFormatter format = new NumberFormatter(NumberFormat.getInstance()) {
+            public Object stringToValue(String text) throws ParseException {
+                if ("".equals(text) || text.length() == 0) {
+                    return null;
+                }
+                return super.stringToValue(text);
+            }
+        };
+        format.setValueClass(Integer.class);
+        format.setMaximum(500);
+        format.setAllowsInvalid(false);
+
+        JFormattedTextField height = new JFormattedTextField(format);
+        height.setColumns(10);
+        JFormattedTextField width = new JFormattedTextField(format);
+        width.setColumns(10);
+        JFormattedTextField mines = new JFormattedTextField(format);
+        mines.setColumns(10);
+
+        panel.add(new JLabel("Height: (1-500)"));
+        panel.add(height);
+        panel.add(new JLabel("Width: (1-500)"));
+        panel.add(width);
+        panel.add(new JLabel("Mines: (1-500)"));
+        panel.add(mines);
+
+        int option = JOptionPane.showConfirmDialog(
+                null, panel, "Custom",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            if (height.getText().equals("")|| width.getText().equals("") || mines.getText().equals("")) {
+                return;
+            }
+
+            int h = Integer.parseInt(height.getText());
+            int w = Integer.parseInt(width.getText());
+            int m = Integer.parseInt(mines.getText());
+
+            if (m > h * w) {
+                JOptionPane.showMessageDialog(this,
+                        "Number of mines must be less than number of squares.",
+                        "Error!", JOptionPane.ERROR_MESSAGE);
+            } else {
+                this.game.newGame(w, h, m);
+            }
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
