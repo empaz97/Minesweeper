@@ -1,5 +1,8 @@
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
@@ -11,7 +14,7 @@ public class Board extends JPanel {
     private ArrayList<Square> mines;
     private Game game;
     private boolean isFinished, isStarted;
-    private boolean marks, color;
+    private boolean marks, color, sound;
     private String difficulty;
 
     public Board(Game game) {
@@ -22,7 +25,8 @@ public class Board extends JPanel {
         this.mines = new ArrayList<Square>();
         this.marks = true;
         this.color = true;
-        this.setDifficulty("Intermediate");
+        this.sound = false;
+        this.setDifficulty("intermediate");
         this.game.getMineCount().setVal(nMines);
 
         this.newGame();
@@ -31,13 +35,13 @@ public class Board extends JPanel {
     public void setDifficulty (String diff) {
         this.difficulty = diff;
         switch (diff) {
-            case "Beginner":
+            case "beginner":
                 this.setOptions(8, 8, 10);
                 break;
-            case "Intermediate":
+            case "intermediate":
                 this.setOptions(16, 16, 40);
                 break;
-            case "Expert":
+            case "expert":
                 this.setOptions(24,24,99);
                 break;
             default:
@@ -82,6 +86,10 @@ public class Board extends JPanel {
                 }
             }
         }
+    }
+
+    public void toggleSound() {
+        this.sound = !this.sound;
     }
 
     public boolean getHasMarks() {
@@ -178,19 +186,41 @@ public class Board extends JPanel {
 
         this.game.setSmile("loss");
 
+        this.playSound("resources/sounds/explosion.wav");
         JOptionPane.showMessageDialog(this, "You lose! You stepped on a mine!",
                 "Bummer!", JOptionPane.ERROR_MESSAGE, new ImageIcon("resources/images/loss_smiley.png"));
+
         this.isFinished = true;
     }
 
     public void winGame() {
         this.game.getTimer().stop();
         this.game.setSmile("win");
+        this.playSound("resources/sounds/cheering.wav");
         JOptionPane.showMessageDialog(this, "You win!", "Nice Job!",
                 JOptionPane.INFORMATION_MESSAGE, new ImageIcon("resources/images/win_smiley.png"));
         this.isFinished = true;
 
         this.checkHighScore();
+    }
+
+    private void playSound(String path) {
+        if (!this.sound)
+            return;
+
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                    new File(path));
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
     private void checkHighScore() {

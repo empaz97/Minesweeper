@@ -8,7 +8,9 @@ This game is the traditional Minesweeper game. It does not require any additiona
 An executable .jar file can be found at:
 ./Minesweeper/Minesweeper.jar
 
-The image resources were all created by me and are located in the images/ folder within the file directory.
+The image resources were all created by me and are located in the resources/images/ folder within the game directory
+The sound files that I use in the project are from freesoundeffects.com and a link to their licence agreement can be found here:
+    https://www.freesoundeffects.com/licence.php
 
 Under the Game menu, you can choose to start a new game, or set the difficulty which starts a new game with that difficulty. The difficulties are as follows:
 Beginner: 8x8, 10 mines 
@@ -18,4 +20,4 @@ Custom: set by user
 
 You can also start a new game by pressing the smiley face at the top!
 
-The goal of this game is to correctly open all squares not containing a mine. If you open a mine, you die! You click a square to open it, and upon being opened, if there is no mine in the square, it will display a number saying the number of adjacent (all eight squares touching a side or corner) mines. If there are 0 adjacent mines, it will chain open all adjacent squares. You can right click a sqsquare to flag it as possibly having a mine under it. Another right click gives it a question mark which says you're unsure, and another right click toggles it back to un-marked.
+The goal of this game is to correctly open all squares not containing a mine. If you open a mine, you die! You click a square to open it, and upon being opened, if there is no mine in the square, it will display a number saying the number of adjacent (all eight squares touching a side or corner) mines. If there are 0 adjacent mines, it will chain open all adjacent squares. You can right click a square to flag it as possibly having a mine under it. Another right click gives it a question mark which says you're unsure, and another right click toggles it back to un-marked.

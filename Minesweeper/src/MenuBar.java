@@ -51,7 +51,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         beginner.setMnemonic(KeyEvent.VK_B);
         group.add(beginner);
         beginner.addActionListener((ActionEvent event) -> {
-            this.game.newGame("Beginner");
+            this.game.newGame("beginner");
         });
         menu.add(beginner);
 
@@ -62,7 +62,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         interm.setMnemonic(KeyEvent.VK_I);
         group.add(interm);
         interm.addActionListener((ActionEvent event) -> {
-            this.game.newGame("Intermediate");
+            this.game.newGame("intermediate");
         });
         menu.add(interm);
 
@@ -73,7 +73,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         expert.setMnemonic(KeyEvent.VK_E);
         group.add(expert);
         expert.addActionListener((ActionEvent event) -> {
-            this.game.newGame("Expert");
+            this.game.newGame("expert");
         });
         menu.add(expert);
 
@@ -134,6 +134,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
         JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound");
         sound.setSelected(false);
         sound.setMnemonic(KeyEvent.VK_S);
+        sound.addActionListener((ActionEvent event) -> {
+            this.game.getBoard().toggleSound();
+        });
         menu.add(sound);
     }
 
