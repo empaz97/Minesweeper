@@ -131,11 +131,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
         });
         menu.add(color);
 
-//        JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound");
-//        sound.setSelected(false);
-//        sound.setMnemonic(KeyEvent.VK_S);
-//        menu.add(sound);
-
+        JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound");
+        sound.setSelected(false);
+        sound.setMnemonic(KeyEvent.VK_S);
+        menu.add(sound);
     }
 
     // creates the help menu and adds it to the menu bar
@@ -165,8 +164,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         final String instrMess = message;
         instr.addActionListener((ActionEvent event) -> {
-            JOptionPane.showMessageDialog(this, instrMess,
-                    "Instructions", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, instrMess, "Instructions",
+                    JOptionPane.INFORMATION_MESSAGE, new ImageIcon("resources/images/mark.png"));
         });
 
         menu.add(instr);
@@ -182,8 +181,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
         message += "2018";
         final String abtMess = message;
         about.addActionListener((ActionEvent event) -> {
-            JOptionPane.showMessageDialog(this, abtMess,
-                    "About", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, abtMess, "About",
+                    JOptionPane.INFORMATION_MESSAGE, new ImageIcon("resources/images/mark.png"));
         });
         menu.add(about);
     }

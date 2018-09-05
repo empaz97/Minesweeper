@@ -118,7 +118,7 @@ public class Game extends JFrame {
     }
 
     public void setSmile(String name) {
-        String path = "images/" + name + "_smiley" + this.imgSuff + ".png";
+        String path = "resources/images/" + name + "_smiley" + this.imgSuff + ".png";
         this.smileImg = name;
         this.smile.setIcon(new ImageIcon(path));
     }

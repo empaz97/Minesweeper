@@ -51,7 +51,7 @@ public class Square extends JButton {
     }
 
     public void setImage() {
-        String path = "images/";
+        String path = "resources/images/";
         switch (adjMines) {
             case 1:
                 path += "one";
@@ -83,7 +83,7 @@ public class Square extends JButton {
         path += this.suffix + ".png";
 
         if (this.hasMine) {
-            path = "images/mine.png";
+            path = "resources/images/mine.png";
         }
 
         this.img = path;
@@ -135,7 +135,7 @@ public class Square extends JButton {
     private void markWithQs() {
         if (!this.isPressed && !this.board.isFinished()) {
             if (this.isFlagged) {
-                this.img = "images/mark.png";
+                this.img = "resources/images/mark.png";
                 this.isFlagged = false;
                 this.board.getGame().getMineCount().increment();
                 this.isMarked = true;
@@ -143,7 +143,7 @@ public class Square extends JButton {
                 this.img = "";
                 this.isMarked = false;
             } else {
-                this.img = "images/flag" + this.suffix + ".png";
+                this.img = "resources/images/flag" + this.suffix + ".png";
                 this.isFlagged = true;
                 this.board.getGame().getMineCount().decrement();
             }
@@ -158,7 +158,7 @@ public class Square extends JButton {
                 this.isFlagged = false;
                 this.board.getGame().getMineCount().increment();
             } else {
-                this.img = "images/flag" + this.suffix + ".png";
+                this.img = "resources/images/flag" + this.suffix + ".png";
                 this.isFlagged = true;
                 this.board.getGame().getMineCount().decrement();
             }

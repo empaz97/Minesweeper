@@ -21,15 +21,15 @@ public class NumberSet extends JPanel {
     }
 
     private void makeLabels() {
-        String fn = "images/times/" + this.numToString(valHun) + ".png";
+        String fn = "resources/images/times/" + this.numToString(valHun) + ".png";
         ImageIcon hunIcon = new ImageIcon(fn, "The hundreds place");
         this.digHun = new JLabel(hunIcon);
 
-        fn = "images/times/" + this.numToString(valTen) + ".png";
+        fn = "resources/images/times/" + this.numToString(valTen) + ".png";
         ImageIcon tenIcon = new ImageIcon(fn, "The hundreds place");
         this.digTen = new JLabel(tenIcon);
 
-        fn = "images/times/" + this.numToString(valOne) + ".png";
+        fn = "resources/images/times/" + this.numToString(valOne) + ".png";
         ImageIcon oneIcon = new ImageIcon(fn, "The hundreds place");
         this.digOne = new JLabel(oneIcon);
     }
@@ -60,19 +60,19 @@ public class NumberSet extends JPanel {
     }
 
     private void repaintOne() {
-        String fn = "images/times/" + this.numToString(valOne) + ".png";
+        String fn = "resources/images/times/" + this.numToString(valOne) + ".png";
         ImageIcon icon = new ImageIcon(fn, "The ones place");
         this.digOne.setIcon(icon);
     }
 
     private void repaintTen() {
-        String fn = "images/times/" + this.numToString(valTen) + ".png";
+        String fn = "resources/images/times/" + this.numToString(valTen) + ".png";
         ImageIcon icon = new ImageIcon(fn, "The tens place");
         this.digTen.setIcon(icon);
     }
 
     private void repaintHun() {
-        String fn = "images/times/" + this.numToString(valHun) + ".png";
+        String fn = "resources/images/times/" + this.numToString(valHun) + ".png";
         ImageIcon icon = new ImageIcon(fn, "The hundreds place");
         this.digHun.setIcon(icon);
     }
