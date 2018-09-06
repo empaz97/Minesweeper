@@ -1,3 +1,9 @@
+/*
+ * MenuBar.java includes the MenuBar class which is a JMenuBar
+ * Author: Emily Pazienza
+ * Created: 08/23/2018
+ */
+
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
@@ -9,11 +15,19 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     // the game that the menubar belongs to
     private Game game;
-    private JRadioButtonMenuItem selected;
+    // reference to the currently selected difficulty button
+    private JRadioButtonMenuItem selectedDifficulty;
 
+    /**
+     * Creates a new MenuBar object
+     * @param game - the Game the MenuBar belongs to
+     */
     public MenuBar(Game game) {
         super();
+
         this.game = game;
+
+        // make all the menus
         this.makeGameMenu();
         this.makeOptMenu();
         this.makeHelpMenu();
@@ -31,6 +45,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
         // starts a new game with the current settings
         JMenuItem newGame = new JMenuItem("New Game", KeyEvent.VK_N);
+
         newGame.getAccessibleContext().setAccessibleDescription(
                 "This starts a new game");
         newGame.setAccelerator(KeyStroke.getKeyStroke(
@@ -46,38 +61,42 @@ public class MenuBar extends JMenuBar implements ActionListener {
         ButtonGroup group = new ButtonGroup();
 
         // beginner games are 8x8 with 10 mines
-        // sets these settings and starts a new game
         JRadioButtonMenuItem beginner = new JRadioButtonMenuItem("Beginner");
         beginner.setSelected(false);
         beginner.setMnemonic(KeyEvent.VK_B);
         group.add(beginner);
+
         beginner.addActionListener((ActionEvent event) -> {
+            // sets these settings and starts a new game
             this.game.newGame("beginner");
+            this.selectedDifficulty = beginner;
         });
         menu.add(beginner);
 
         // intermediate games are 16x16 with 40 mines
-        // sets these settings and starts a new game
         JRadioButtonMenuItem interm = new JRadioButtonMenuItem("Intermediate");
         interm.setSelected(true);
-        this.selected = interm;
+        this.selectedDifficulty = interm;
         interm.setMnemonic(KeyEvent.VK_I);
         group.add(interm);
+
         interm.addActionListener((ActionEvent event) -> {
+            // sets these settings and starts a new game
             this.game.newGame("intermediate");
-            this.selected = interm;
+            this.selectedDifficulty = interm;
         });
         menu.add(interm);
 
         // expert games are 24x24 with 99 mines
-        // sets these settings and starts a new game
         JRadioButtonMenuItem expert = new JRadioButtonMenuItem("Expert");
         expert.setSelected(false);
         expert.setMnemonic(KeyEvent.VK_E);
         group.add(expert);
+
         expert.addActionListener((ActionEvent event) -> {
+            // sets these settings and starts a new game
             this.game.newGame("expert");
-            this.selected = expert;
+            this.selectedDifficulty = expert;
         });
         menu.add(expert);
 
@@ -86,12 +105,13 @@ public class MenuBar extends JMenuBar implements ActionListener {
         custom.setSelected(false);
         custom.setMnemonic(KeyEvent.VK_C);
         group.add(custom);
+
         custom.addActionListener((ActionEvent event) -> {
-            if (!this.showCustomDialog()) {
+            if (!this.showCustomDialog()) { // if the user submits valid data
                 custom.setSelected(false);
-                this.selected.setSelected(true);
+                this.selectedDifficulty.setSelected(true);
             } else {
-                this.selected = custom;
+                this.selectedDifficulty = custom;
             }
         });
         menu.add(custom);
@@ -102,6 +122,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         JMenuItem scores = new JMenuItem("High Scores", KeyEvent.VK_S);
         scores.getAccessibleContext().setAccessibleDescription(
                 "This brings up the high score screen");
+
         scores.addActionListener((ActionEvent event) -> {
             Object[] options = { "Reset Scores", "Close"};
             int n = JOptionPane.showOptionDialog(this, game.getHighScores(),
@@ -254,7 +275,5 @@ public class MenuBar extends JMenuBar implements ActionListener {
         return false;
     }
 
-    public void actionPerformed(ActionEvent e) {
-
-    }
+    public void actionPerformed(ActionEvent e) { }
 }
