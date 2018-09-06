@@ -1,3 +1,9 @@
+/*
+ * NumberSet.java includes the NumberSet class which is a JPanel of three numbers
+ * Author: Emily Pazienza
+ * Created: 09/04/2018
+ */
+
 import javax.swing.*;
 
 public class NumberSet extends JPanel {
@@ -5,9 +11,13 @@ public class NumberSet extends JPanel {
     private JLabel digHun, digTen, digOne;
     private int valHun, valTen, valOne;
 
+    /**
+     * Creates a new NumberSet object
+     */
     public NumberSet() {
         super();
 
+        // start at 000
         this.valHun = 0;
         this.valTen = 0;
         this.valOne = 0;
@@ -34,6 +44,11 @@ public class NumberSet extends JPanel {
         this.digOne = new JLabel(oneIcon);
     }
 
+    /**
+     * Takes in a digit and converts it to its string counterpart
+     * @param num - the digit to convert
+     * @return the String version of the digit
+     */
     private String numToString(int num) {
         switch(num) {
             case 1:
@@ -77,6 +92,7 @@ public class NumberSet extends JPanel {
         this.digHun.setIcon(icon);
     }
 
+    // increments the set
     public void increment() {
         this.valOne++;
         if (this.valOne > 9 ) {
@@ -99,6 +115,7 @@ public class NumberSet extends JPanel {
         this.repaintOne();
     }
 
+    // decrements the set
     public void decrement() {
         this.valOne--;
         if (this.valOne == -1) {
@@ -120,6 +137,7 @@ public class NumberSet extends JPanel {
         this.repaintOne();
     }
 
+    // sets the NumberSet to a given value
     public void setVal(int n) {
         if (n > 999 || n < 0) {
             return;
@@ -140,6 +158,9 @@ public class NumberSet extends JPanel {
         this.repaintOne();
     }
 
+    /**
+     * @return the int total value of the number
+     */
     public int getTotal() {
         int n = 100 * this.valHun;
         n += 10 * this.valTen;

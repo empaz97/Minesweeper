@@ -1,24 +1,46 @@
+/*
+ * Square.java includes the Square class which is a JButton for the squares on the board
+ * Author: Emily Pazienza
+ * Created: 08/24/2018
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class Square extends JButton {
 
+    // the board that the square is a part of
     private Board board;
+
+    // booleans for square state
     private boolean hasMine, isPressed, isFlagged, isMarked;
-    private int adjMines, x, y;
+
+    // the number of neighboring mines
+    private int adjMines;
+    // the location on the board
+    private int x, y;
+
+    // path to the image and the image suffix
     private String img, suffix;
 
+    /**
+     * Creates a new Square object
+     * @param b - the board the Square belongs to
+     * @param x, y - the location on the board's matrix
+     */
     public Square(Board b, int x, int y) {
         super();
         this.board = b;
-        this.adjMines = 0;
 
+        // default states
+        this.adjMines = 0;
         this.hasMine = false;
         this.isMarked = false;
         this.isFlagged = false;
         this.isPressed = false;
 
+        // set the suffix based on colored vs bw
         if(this.board.getIsColored()) {
             this.suffix = "";
         } else {
@@ -28,6 +50,7 @@ public class Square extends JButton {
         this.x = x;
         this.y = y;
 
+        // setting visuals for the square
         this.setPreferredSize(new Dimension(25, 25));
         this.setBackground(Color.lightGray);
         this.setOpaque(true);
@@ -91,10 +114,12 @@ public class Square extends JButton {
     }
 
     public void press() {
-        if (!this.board.isStarted()) {
+        if (!this.board.isStarted())
             this.board.start();
-        }
+
+        // if the square is press-able
         if (!this.isPressed && !this.isMarked && !this.isFlagged && !this.board.isFinished()) {
+            // make it look pushed-in
             this.pushIn();
 
             if (this.hasMine) {
@@ -104,12 +129,14 @@ public class Square extends JButton {
                 this.board.countPress();
             }
 
+            // if it has no neighboring mines, chain its neighbors
             if (this.adjMines == 0 && !this.hasMine) {
                 this.board.chain("open", this.x, this.y);
             }
         }
     }
 
+    // make the square look pushed-in
     public void pushIn() {
         if (!this.isPressed) {
             this.isPressed = true;
@@ -132,17 +159,19 @@ public class Square extends JButton {
         }
     }
 
+    // flag or mark the square if marks are turned on
     private void markWithQs() {
+        // is mark-able
         if (!this.isPressed && !this.board.isFinished()) {
-            if (this.isFlagged) {
+            if (this.isFlagged) { // if flagged, then mark
                 this.img = "resources/images/mark.png";
                 this.isFlagged = false;
                 this.board.getGame().getMineCount().increment();
                 this.isMarked = true;
-            } else if (this.isMarked) {
+            } else if (this.isMarked) { // if marked, then unmark
                 this.img = "";
                 this.isMarked = false;
-            } else {
+            } else { // if unmarked, then flag
                 this.img = "resources/images/flag" + this.suffix + ".png";
                 this.isFlagged = true;
                 this.board.getGame().getMineCount().decrement();
@@ -151,13 +180,15 @@ public class Square extends JButton {
         }
     }
 
+    // flag the square if marks are turned off
     private void markJustFlags() {
+        // is flag-able
         if (!this.isPressed && !this.board.isFinished()) {
-            if (this.isFlagged) {
+            if (this.isFlagged) { // if flagged, then unflag
                 this.img = "";
                 this.isFlagged = false;
                 this.board.getGame().getMineCount().increment();
-            } else {
+            } else { // if unflagged, then flag
                 this.img = "resources/images/flag" + this.suffix + ".png";
                 this.isFlagged = true;
                 this.board.getGame().getMineCount().decrement();
@@ -173,19 +204,10 @@ public class Square extends JButton {
         }
     }
 
-    public boolean getIsMarked() {
-        return this.isMarked;
-    }
+    // various getters
+    public boolean getIsMarked() { return this.isMarked; }
+    public boolean getIsFlagged() { return this.isFlagged; }
+    public boolean getHasMine() { return this.hasMine; }
 
-    public boolean getIsFlagged() {
-        return this.isFlagged;
-    }
-
-    public boolean getHasMine() {
-        return this.hasMine;
-    }
-
-    public Board getBoard() {
-        return this.board;
-    }
+    public Board getBoard() { return this.board; }
 }
