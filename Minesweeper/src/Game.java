@@ -23,25 +23,31 @@ public class Game extends JFrame {
 
         JPanel gamePanel = new JPanel(new BorderLayout(0,10));
 
-        JPanel headerWrapper = new JPanel();
+        JPanel headerWrapper = new JPanel(new BorderLayout());
         headerWrapper.setBackground(Color.lightGray);
-        JPanel headerPanel = new JPanel(new BorderLayout(135,0));
+        JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(Color.lightGray);
+        Box box = Box.createHorizontalBox();
 
         this.mineCount = new NumberSet();
-        headerPanel.add(this.mineCount, BorderLayout.WEST);
+        box.add(this.mineCount);
+
+        box.add(Box.createGlue());
 
         this.imgSuff = "";
         this.makeSmile();
-        this.smile.setPreferredSize(new Dimension(25, 27));
-        headerPanel.add(this.smile, BorderLayout.CENTER);
+        box.add(this.smile);
+
+        box.add(Box.createGlue());
 
         this.timeCount = new NumberSet();
-        headerPanel.add(this.timeCount, BorderLayout.EAST);
+        box.add(this.timeCount);
 
         this.createTimer();
 
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(1,0,1,0));
+        headerPanel.add(box);
+
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         headerWrapper.setBorder(BorderFactory.createLoweredBevelBorder());
         headerWrapper.add(headerPanel);
         gamePanel.add(headerWrapper, BorderLayout.NORTH);
@@ -51,7 +57,7 @@ public class Game extends JFrame {
         this.board.setBorder(BorderFactory.createLoweredBevelBorder());
         gamePanel.add(this.board, BorderLayout.CENTER);
 
-        gamePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        gamePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 9, 10));
         gamePanel.setBackground(Color.lightGray);
         this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 
@@ -83,7 +89,9 @@ public class Game extends JFrame {
 
     private void makeSmile() {
         JButton sm = new JButton();
-        sm.setPreferredSize(new Dimension(30,30));
+        sm.setPreferredSize(new Dimension(25,25));
+        sm.setMaximumSize(new Dimension(25,25));
+        sm.setMinimumSize(new Dimension(25,25));
         sm.setBackground(Color.lightGray);
         sm.setOpaque(true);
         sm.setBorder(BorderFactory.createRaisedBevelBorder());
