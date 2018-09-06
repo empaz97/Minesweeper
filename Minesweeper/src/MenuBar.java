@@ -9,6 +9,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     // the game that the menubar belongs to
     private Game game;
+    private JRadioButtonMenuItem selected;
 
     public MenuBar(Game game) {
         super();
@@ -59,10 +60,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
         // sets these settings and starts a new game
         JRadioButtonMenuItem interm = new JRadioButtonMenuItem("Intermediate");
         interm.setSelected(true);
+        this.selected = interm;
         interm.setMnemonic(KeyEvent.VK_I);
         group.add(interm);
         interm.addActionListener((ActionEvent event) -> {
             this.game.newGame("intermediate");
+            this.selected = interm;
         });
         menu.add(interm);
 
@@ -74,6 +77,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         group.add(expert);
         expert.addActionListener((ActionEvent event) -> {
             this.game.newGame("expert");
+            this.selected = expert;
         });
         menu.add(expert);
 
@@ -83,7 +87,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
         custom.setMnemonic(KeyEvent.VK_C);
         group.add(custom);
         custom.addActionListener((ActionEvent event) -> {
-            this.showCustomDialog();
+            if (!this.showCustomDialog()) {
+                custom.setSelected(false);
+                this.selected.setSelected(true);
+            } else {
+                this.selected = custom;
+            }
         });
         menu.add(custom);
 
@@ -191,7 +200,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     }
 
     // shows the dialog for the user to enter custom options for the board
-    private void showCustomDialog() {
+    private boolean showCustomDialog() {
         JPanel panel = new JPanel(new GridLayout(0, 2));
 
         NumberFormatter format = new NumberFormatter(NumberFormat.getInstance()) {
@@ -203,19 +212,20 @@ public class MenuBar extends JMenuBar implements ActionListener {
             }
         };
         format.setValueClass(Integer.class);
-        format.setMaximum(500);
+        format.setMaximum(50);
         format.setAllowsInvalid(false);
 
         JFormattedTextField height = new JFormattedTextField(format);
         height.setColumns(10);
         JFormattedTextField width = new JFormattedTextField(format);
         width.setColumns(10);
+        format.setMaximum(500);
         JFormattedTextField mines = new JFormattedTextField(format);
         mines.setColumns(10);
 
-        panel.add(new JLabel("Height: (1-500)"));
+        panel.add(new JLabel("Height: (1-50)"));
         panel.add(height);
-        panel.add(new JLabel("Width: (1-500)"));
+        panel.add(new JLabel("Width: (1-50)"));
         panel.add(width);
         panel.add(new JLabel("Mines: (1-500)"));
         panel.add(mines);
@@ -225,7 +235,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (option == JOptionPane.OK_OPTION) {
             if (height.getText().equals("")|| width.getText().equals("") || mines.getText().equals("")) {
-                return;
+                return false;
             }
 
             int h = Integer.parseInt(height.getText());
@@ -238,8 +248,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
                         "Error!", JOptionPane.ERROR_MESSAGE);
             } else {
                 this.game.newGame(w, h, m);
+                return true;
             }
         }
+        return false;
     }
 
     public void actionPerformed(ActionEvent e) {
