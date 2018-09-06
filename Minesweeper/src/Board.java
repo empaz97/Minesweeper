@@ -49,6 +49,7 @@ public class Board extends JPanel {
         }
 
         this.newGame();
+        this.game.pack();
     }
 
     private void setOptions(int w, int h, int nM) {
@@ -61,6 +62,7 @@ public class Board extends JPanel {
         this.difficulty = "custom";
         this.setOptions(w,h,n);
         this.newGame();
+        this.game.pack();
     }
 
     public void toggleColor() {
@@ -101,6 +103,7 @@ public class Board extends JPanel {
     }
 
     public void newGame() {
+        this.game.getTimer().stop();
         this.game.getTimeCount().setVal(0);
         this.setLayout(new GridLayout(this.height, this.width));
         this.removeAll();

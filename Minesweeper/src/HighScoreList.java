@@ -28,7 +28,7 @@ public class HighScoreList extends JPanel {
         this.removeAll();
 
         String time, name;
-        this.add(new JLabel("beginner:"));
+        this.add(new JLabel("Beginner:"));
         if (this.beginner == null) {
             time = "None";
             name = "None";
@@ -39,7 +39,7 @@ public class HighScoreList extends JPanel {
         this.add(new JLabel(time));
         this.add(new JLabel(name));
 
-        this.add(new JLabel("intermediate:"));
+        this.add(new JLabel("Intermediate:"));
         if (this.intermediate == null) {
             time = "None";
             name = "None";
@@ -50,7 +50,7 @@ public class HighScoreList extends JPanel {
         this.add(new JLabel(time));
         this.add(new JLabel(name));
 
-        this.add(new JLabel("expert:"));
+        this.add(new JLabel("Expert:"));
         if (this.expert == null) {
             time = "None";
             name = "None";
