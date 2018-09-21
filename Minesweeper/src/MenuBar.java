@@ -192,8 +192,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
         message += "If you open all non-mine squares, you win!\n\n";
         message += "Non-mine squares will display a number indicating the number of adjacent mines," +
                 "or nothing if there are no adjacent mines.\n";
-        message += "Right click to flag a square as possibly having a mine. Right click again to mark" +
-                " it as questionable. One more right click clears the mark and flag.";
+        message += "Right click to flag a square as possibly having a mine.\nIf the marks option is " +
+                "toggled on, you can right click again to mark it as questionable. One more right " +
+                "click clears the mark and flag.";
 
         final String instrMess = message;
         instr.addActionListener((ActionEvent event) -> {
